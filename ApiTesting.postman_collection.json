@@ -1,0 +1,456 @@
+{
+	"info": {
+		"_postman_id": "d18ff704-c4ad-4459-b6fe-0e56c20be840",
+		"name": "ApiTesting",
+		"description": "API Testing using javascript",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Service",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "390a1a75-cefe-4bf7-be06-d32f4f20c6c1",
+						"exec": [
+							"pm.test(\"verify that status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"var schema = {",
+							"    \"$schema\": \"http://json-schema.org/draft-06/schema\",",
+							"    \"$id\": \"https://jsonplaceholder.typicode.com/posts\",",
+							"    \"type\": \"array\",",
+							"    \"additionalItems\": false,",
+							"    \"items\": {",
+							"        \"$id\": \"#/items\",",
+							"        \"anyOf\": [",
+							"            {",
+							"                \"$id\": \"#/items/anyOf/0\",",
+							"                \"type\": \"object\",",
+							"                \"required\": [",
+							"                    \"userId\",",
+							"                    \"id\",",
+							"                    \"title\",",
+							"                    \"body\"",
+							"                ],",
+							"                \"properties\": {",
+							"                    \"userId\": {",
+							"                        \"$id\": \"#/items/anyOf/0/properties/userId\",",
+							"                        \"type\": \"number\"",
+							"                    },",
+							"                    \"id\": {",
+							"                        \"$id\": \"#/items/anyOf/0/properties/id\",",
+							"                        \"type\": \"number\"",
+							"                    },",
+							"                    \"title\": {",
+							"                        \"$id\": \"#/items/anyOf/0/properties/title\",",
+							"                        \"type\": \"string\"",
+							"                    },",
+							"                    \"body\": {",
+							"                        \"$id\": \"#/items/anyOf/0/properties/body\",",
+							"                        \"type\": \"string\"",
+							"                    }",
+							"                },",
+							"                \"additionalProperties\": false",
+							"            }",
+							"        ]",
+							"    }",
+							"};",
+							"pm.test(\"verify the schema\", function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;    ",
+							"});",
+							"",
+							"pm.test(\"API returns at least 100 records\", function () {",
+							"    pm.expect(Object.keys(pm.response.json()).length).to.eql(100);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Service by parameter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "03b1e316-150e-4a79-b037-5bf7872d326c",
+						"exec": [
+							"pm.test(\"verify that status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"var schema = {",
+							"    \"$schema\": \"http://json-schema.org/draft-06/schema\",",
+							"    \"$id\": \"https://jsonplaceholder.typicode.com/posts/1\",",
+							"    \"type\": \"object\",",
+							"    \"required\": [",
+							"        \"userId\",",
+							"        \"id\",",
+							"        \"title\",",
+							"        \"body\"",
+							"    ],",
+							"    \"properties\": {",
+							"        \"userId\": {",
+							"            \"$id\": \"#/properties/userId\",",
+							"            \"type\": \"number\"",
+							"        },",
+							"        \"id\": {",
+							"            \"$id\": \"#/properties/id\",",
+							"            \"type\": \"number\"",
+							"        },",
+							"        \"title\": {",
+							"            \"$id\": \"#/properties/title\",",
+							"            \"type\": \"string\"",
+							"        },",
+							"        \"body\": {",
+							"            \"$id\": \"#/properties/body\",",
+							"            \"type\": \"string\"",
+							"        }",
+							"    },",
+							"    \"additionalProperties\": false",
+							"};",
+							"pm.test(\"verify the schema\", function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;    ",
+							"});",
+							"",
+							"pm.test(\"verify that API returns only one record\", function () {",
+							"    pm.expect(Object.keys(pm.response.json()).length).to.eql(4);",
+							"});",
+							"",
+							"pm.test(\"verify that id in response matches the input (1)\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts/1",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InvalidPost",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4974d93f-6d50-4d4c-a32f-374c58081463",
+						"exec": [
+							"pm.test(\"verify that status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"    ",
+							"if (pm.response.code === 404) { ",
+							"    pm.test(`log the complete request and response details for troubleshooting`, () => { ",
+							"        console.log(pm.response.code); ",
+							"    }) ;",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/invalidposts",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"invalidposts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create UserID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6ea81b6d-7399-4c4e-b1c3-488effe32808",
+						"exec": [
+							"pm.test(\"verify that status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"var schema = {",
+							"    \"$schema\": \"http://json-schema.org/draft-06/schema\",",
+							"    \"$id\": \"https://jsonplaceholder.typicode.com/posts\",",
+							"    \"type\": \"object\",",
+							"    \"required\": [",
+							"        \"title\",",
+							"        \"body\",",
+							"        \"userId\",",
+							"        \"id\"",
+							"    ],",
+							"    \"properties\": {",
+							"        \"title\": {",
+							"            \"$id\": \"#/properties/title\",",
+							"            \"type\": \"string\"",
+							"        },",
+							"        \"body\": {",
+							"            \"$id\": \"#/properties/body\",",
+							"            \"type\": \"string\"",
+							"        },",
+							"        \"userId\": {",
+							"            \"$id\": \"#/properties/userId\",",
+							"            \"type\": \"number\"",
+							"        },",
+							"        \"id\": {",
+							"            \"$id\": \"#/properties/id\",",
+							"            \"type\": \"number\"",
+							"        }",
+							"    },",
+							"    \"additionalProperties\": false",
+							"};",
+							"pm.test(\"Verify Schema is valid\", function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;    ",
+							"});",
+							"",
+							"pm.test(\"verify the record created\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(101);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "charset",
+						"value": "UTF-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"title\": \"foo\",\n\"body\": \"bar\",\n\"userId\": 1\n}"
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put record ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b80d0a41-b116-4c61-8960-4897f85a5d9b",
+						"exec": [
+							"pm.test(\"verify that status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"var schema = {",
+							"    \"$schema\": \"http://json-schema.org/draft-06/schema\",",
+							"    \"$id\": \"http://example.com/example.json\",",
+							"    \"type\": \"object\",",
+							"    \"required\": [",
+							"        \"id\",",
+							"        \"title\",",
+							"        \"body\",",
+							"        \"userId\"",
+							"    ],",
+							"    \"properties\": {",
+							"        \"id\": {",
+							"            \"$id\": \"#/properties/id\",",
+							"            \"type\": \"number\"",
+							"        },",
+							"        \"title\": {",
+							"            \"$id\": \"#/properties/title\",",
+							"            \"type\": \"string\"",
+							"        },",
+							"        \"body\": {",
+							"            \"$id\": \"#/properties/body\",",
+							"            \"type\": \"string\"",
+							"        },",
+							"        \"userId\": {",
+							"            \"$id\": \"#/properties/userId\",",
+							"            \"type\": \"number\"",
+							"        }",
+							"    },",
+							"    \"additionalProperties\": false",
+							"};",
+							"pm.test(\"verify the schema\", function () {",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;    ",
+							"});",
+							"",
+							"pm.test(\"verify the record created\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(1);",
+							"    pm.expect(jsonData.title).to.eql('abc');",
+							"    pm.expect(jsonData.body).to.eql('xyz');",
+							"    pm.expect(jsonData.userId).to.eql(1);",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "charset",
+						"value": "UTF-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"id\": 2,\n\"title\": \"abc\",\n\"body\": \"xyz\",\n\"userId\": 1\n}"
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts/1",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "20162ad8-422a-4969-ba8b-aaa167fe5040",
+						"exec": [
+							"pm.test(\"verify that status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"verify the response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.value).to.eql();",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts/1",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
