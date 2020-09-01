@@ -15,7 +15,7 @@ npm install -g newman
 
 #Install htmlextra plugion to get the html report 
 
-newman run collection.json -r htmlextra
+npm install -g newman-reporter-htmlextra
 
 #Command to Run the Tests:
 
